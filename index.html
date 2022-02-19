@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>MV</title>
+		<meta charset="utf-8" name="description" content="">
+		
+    <!-- aframe script -->
+		<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1f00d0beadf87bad7d275c174616e048f8b573fc/dist/aframe-master.min.js"></script>
+
+    <!-- other component -->
+		<!-- <script src="https://unpkg.com/aframe-audioanalyser-component@5.4.0/dist/aframe-audioanalyser-component.min.js"></script>  -->
+		<script src="https://unpkg.com/aframe-audio-analyser@^1.0.0/dist/aframe-audio-analyser.umd.js"></script>
+
+		<script src="./js/soundutils.js"></script>
+		<script src="./js/generate.js"></script>
+		<script src="./js/emitonclick.js"></script>
+		<script src="./js/clicktoplay.js"></script>
+		<script src="./js/analysereffect.js"></script>
+
+		<!-- find somewhere to credit  -->
+    <!-- Music: Le Gang 
+    https://soundcloud.com/thisislegang/in-tro -->
+	</head>
+	<body>
+		<a-scene background="color:black"
+			pool__plane="mixin: planem; 
+						size: 1000;
+						container: #planegroup">
+			<a-assets>
+				<audio id="intro"
+					src="./assets/sound/Intro.mp3"
+					preload="true"
+				></audio>
+				<a-mixin id="planem"
+					rotation="-90 0 0"
+					geometry="primitive: plane;
+							height:0.8"
+					material="color: white; 
+							opacity: 0;
+							side: double;"
+					animation__fadein="property: material.opacity;
+						from: 0.;
+						to: 1.;
+						loop: true;
+						dir: alternate;
+						dur: 500;">
+				</a-mixin>
+			</a-assets>
+			<a-entity id="planegroup" 
+				generatefloor>
+			</a-entity>
+			
+			<a-box
+				position="0 2 -5"
+				class="interactable"
+				sound="src: #intro;
+					positional: false;
+					on: click"
+				animation="property: position;
+						to: 0 2.1 -5;
+						dur: 2000; 
+						loop: true;
+						dir: alternate;
+						easing: easeOutSine;						;
+						"
+				animation__rot="property: rotation;
+						delay: 1500;
+						to: 0 360 0;
+						dur: 3000; 
+						loop: true;"
+				animation__mouseenter="property: scale;
+						to: 1.1 1.1 1.1;
+						startEvents: mouseenter;
+						dur: 200"
+				animation__mouseleave="property: scale;
+						to: 1 1 1;
+						startEvents: mouseleave;
+						dur: 200"
+				animation__disappear="property: visible;
+						to: false;
+						startEvents: click"
+				emitonclick>
+			</a-box>
+			
+			<a-entity camera
+				position="0 1.6 0"
+				look-controls>
+				<a-entity 
+					cursor="rayOrigin: mouse"
+					raycaster="objects: .interactable">
+				</a-entity>
+			</a-entity>
+
+		</a-scene>
+	</body>
+</html>
