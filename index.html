@@ -50,12 +50,14 @@
 				generatefloor>
 			</a-entity>
 			
+			<!-- 要用音訊分析就不能寫sound 要自己寫clicktoplay來取代（但是就沒有聲音的相對位置功能）
+			sound="src: #intro;
+					positional: false;
+					on: click" -->
 			<a-box
 				position="0 2 -5"
 				class="interactable"
-				sound="src: #intro;
-					positional: false;
-					on: click"
+				clicktoplay="src: #intro"
 				animation="property: position;
 						to: 0 2.1 -5;
 						dur: 2000; 
@@ -81,8 +83,19 @@
 						startEvents: click"
 				emitonclick>
 			</a-box>
+
+			<!-- 音訊分析程式如果沒有在一開始就播放音樂她就找不到音樂，所以要透過emitonclick.click去定義他的audioanalyser -->
+			<a-entity id="analyser">
+			</a-entity>
+			<!-- <a-entity id="analyser"
+			audioanalyser="src: #intro">
+			</a-entity> -->
+
+			<a-light type="ambient" analysereffect="analyser:#analyser">
+			</a-light>
 			
-			<a-entity camera
+			<a-entity id="maincam"
+				camera="active:true;" 
 				position="0 1.6 0"
 				look-controls>
 				<a-entity 
@@ -91,6 +104,11 @@
 				</a-entity>
 			</a-entity>
 
+			<a-entity id="secondcam"
+				camera="active:false;" 
+				position="0 4 0"
+				rotation="-60 0 0">
+			</a-entity>
 		</a-scene>
 	</body>
 </html>
